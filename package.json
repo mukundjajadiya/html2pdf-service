@@ -1,0 +1,12 @@
+{
+  "name": "html2pdf",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "express": "^5.2.1",
+    "puppeteer": "^24.34.0"
+  },
+  "devDependencies": {
+    "tailwindcss": "^4.1.18"
+  }
+}

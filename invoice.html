@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice - Gadget Galaxy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        @media print {
+            .no-break {
+                break-inside: avoid;
+            }
+
+            thead {
+                display: table-header-group;
+            }
+
+            tr {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+
+            .page-break {
+                page-break-before: always;
+            }
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563eb',
+                        secondary: '#1e40af',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-gray-100 print:bg-white text-gray-800 antialiased p-8 print:p-0">
+
+    <div class="max-w-[210mm] mx-auto bg-white shadow-lg print:shadow-none min-h-[297mm] p-10 print:p-10 relative">
+
+        <!-- Header -->
+        <header class="flex justify-between items-start border-b border-gray-200 pb-8 mb-8">
+            <div>
+                <h1 class="text-3xl font-extrabold text-primary tracking-tight uppercase">Gadget Galaxy</h1>
+                <p class="text-sm text-gray-500 mt-1">456 Tech Park, New York, NY 10001</p>
+                <p class="text-sm text-gray-500">support@gadgetgalaxy.com</p>
+            </div>
+            <div class="text-right">
+                <h2 class="text-4xl font-light text-gray-300 uppercase tracking-widest">Invoice</h2>
+                <div class="mt-4 space-y-1">
+                    <div class="text-sm text-gray-600">Invoice #: <span
+                            class="font-bold text-gray-800">INV-2026-1024</span></div>
+                    <div class="text-sm text-gray-600">Date: <span class="font-bold text-gray-800">Jan 02, 2026</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Bill To / Order Info -->
+        <div class="grid grid-cols-2 gap-8 mb-10">
+            <div>
+                <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Bill To</h3>
+                <div class="text-lg font-bold text-gray-800">Alex Rivers</div>
+                <div class="text-sm text-gray-600 leading-relaxed">
+                    123 Innovation Drive<br>
+                    San Francisco, CA 94105<br>
+                    alex.rivers@example.com
+                </div>
+            </div>
+            <div class="text-right">
+                <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Order Details</h3>
+                <div class="text-sm text-gray-600 space-y-1">
+                    <p>Order ID: <span class="font-semibold text-gray-800">ORD-45892</span></p>
+                    <p>Payment: <span class="font-semibold text-gray-800">Mastercard •••• 4421</span></p>
+                    <p>Due Date: <span class="font-semibold text-gray-800">Jan 16, 2026</span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Items Table -->
+        <table class="w-full mb-8 border-collapse">
+            <thead>
+                <tr class="border-b-2 border-gray-200 bg-gray-50 print:bg-gray-50">
+                    <th class="py-3 px-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider w-1/2">
+                        Item Description</th>
+                    <th class="py-3 px-4 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider w-1/6">
+                        Qty</th>
+                    <th class="py-3 px-4 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider w-1/6">
+                        Price</th>
+                    <th class="py-3 px-4 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider w-1/6">
+                        Total</th>
+                </tr>
+            </thead>
+            <tbody id="items-body">
+                <!-- Static Item 1 -->
+                <tr class="border-b border-gray-100 no-break">
+                    <td class="py-4 px-4">
+                        <div class="font-medium text-gray-800">Sony WH-1000XM5 Headset</div>
+                        <div class="text-xs text-gray-500 mt-0.5">Industry Leading Noise Canceling Wireless Headphones
+                        </div>
+                    </td>
+                    <td class="py-4 px-4 text-right font-medium text-gray-600">1</td>
+                    <td class="py-4 px-4 text-right font-medium text-gray-600">$349.99</td>
+                    <td class="py-4 px-4 text-right font-bold text-gray-800">$349.99</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Totals -->
+        <div class="flex justify-end mb-12 no-break">
+            <div class="w-80">
+                <div class="flex justify-between py-2 border-b border-gray-100">
+                    <span class="text-gray-500">Subtotal</span>
+                    <span class="font-semibold text-gray-800" id="subtotal-display">$349.99</span>
+                </div>
+                <div class="flex justify-between py-2 border-b border-gray-100">
+                    <span class="text-gray-500">Tax (8%)</span>
+                    <span class="font-semibold text-gray-800" id="tax-display">$28.00</span>
+                </div>
+                <div class="flex justify-between py-4 border-t-2 border-gray-800 mt-1">
+                    <span class="text-lg font-bold text-gray-800">Total</span>
+                    <span class="text-lg font-bold text-primary" id="total-display">$377.99</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="border-t border-gray-200 pt-8 text-center text-sm text-gray-500 no-break">
+            <p class="font-medium text-primary mb-2">Thank you for your business!</p>
+            <p>Please make checks payable to Gadget Galaxy Inc.</p>
+            <p class="mt-1">Terms: Payment due upon receipt.</p>
+        </div>
+    </div>
+
+    <!-- Script to populate long list data -->
+    <script>
+        const itemsBody = document.getElementById('items-body');
+
+        // Add 35 more items to force page breaks
+        let currentSubtotal = 349.99;
+
+        for (let i = 1; i <= 35; i++) {
+            const tr = document.createElement('tr');
+            tr.className = 'border-b border-gray-100 no-break';
+
+            // Alternating dummy data for variety
+            const itemName = i % 2 === 0 ? "Cloud Storage 2TB" : "Premium Support Add-on";
+            const itemDesc = i % 2 === 0 ? "Secure encrypted storage for your team." : "24/7 priority response time.";
+            const itemPrice = i % 2 === 0 ? 15.00 : 49.00;
+            const qty = 1;
+            const total = itemPrice * qty;
+
+            currentSubtotal += total;
+
+            tr.innerHTML = `
+                <td class="py-3 px-4">
+                    <div class="font-medium text-gray-800">${itemName} (Ref: #${1000 + i})</div>
+                    <div class="text-xs text-gray-500 mt-0.5">${itemDesc}</div>
+                </td>
+                <td class="py-3 px-4 text-right font-medium text-gray-600">${qty}</td>
+                <td class="py-3 px-4 text-right font-medium text-gray-600">$${itemPrice.toFixed(2)}</td>
+                <td class="py-3 px-4 text-right font-bold text-gray-800">$${total.toFixed(2)}</td>
+            `;
+            itemsBody.appendChild(tr);
+        }
+
+        // Update totals
+        const tax = currentSubtotal * 0.08;
+        const grandTotal = currentSubtotal + tax;
+
+        document.getElementById('subtotal-display').textContent = '$' + currentSubtotal.toFixed(2);
+        document.getElementById('tax-display').textContent = '$' + tax.toFixed(2);
+        document.getElementById('total-display').textContent = '$' + grandTotal.toFixed(2);
+    </script>
+</body>
+
+</html>

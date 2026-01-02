@@ -1,2 +1,8 @@
-node_modules
-temp
+node_modules/
+temp/
+*.log
+.env
+.DS_Store
+*.pdf
+.vscode/
+.idea/

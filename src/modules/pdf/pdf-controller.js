@@ -1,10 +1,10 @@
 import path from 'path';
 import crypto from 'crypto';
 import fs from 'fs/promises';
-import { PdfService } from '../services/pdf-service.js';
-import { config } from '../config/config.js';
-import { AppError } from '../utils/app-error.js';
-import { Logger } from '../utils/logger.js';
+import { PdfService } from './pdf-service.js';
+import { config } from '../../shared/config/config.js';
+import { AppError } from '../../shared/utils/app-error.js';
+import { Logger } from '../../shared/utils/logger.js';
 
 const pdfService = new PdfService();
 

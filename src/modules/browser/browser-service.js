@@ -1,6 +1,6 @@
 import puppeteer from 'puppeteer';
-import { Logger } from '../utils/logger.js';
-import { config } from '../config/config.js';
+import { Logger } from '../../shared/utils/logger.js';
+import { config } from '../../shared/config/config.js';
 
 export class BrowserService {
     constructor() {

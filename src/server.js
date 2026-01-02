@@ -1,7 +1,7 @@
 import app from './app.js';
-import { config } from './config/config.js';
-import { Logger } from './utils/logger.js';
-import { BrowserService } from './services/browser-service.js';
+import { config } from './shared/config/config.js';
+import { Logger } from './shared/utils/logger.js';
+import { BrowserService } from './modules/browser/browser-service.js';
 import fs from 'fs/promises';
 
 const startServer = async () => {

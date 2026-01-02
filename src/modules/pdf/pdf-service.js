@@ -1,6 +1,6 @@
-import { BrowserService } from './browser-service.js';
-import { AppError } from '../utils/app-error.js';
-import { Logger } from '../utils/logger.js';
+import { BrowserService } from '../browser/browser-service.js';
+import { AppError } from '../../shared/utils/app-error.js';
+import { Logger } from '../../shared/utils/logger.js';
 
 export class PdfService {
     constructor() {

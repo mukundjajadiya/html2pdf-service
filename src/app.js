@@ -1,7 +1,7 @@
 import express from 'express';
-import { pdfRoutes } from './routes/pdf-routes.js';
-import { errorHandler } from './middlewares/error-handler.js';
-import { config } from './config/config.js';
+import { pdfRoutes } from './modules/pdf/pdf-routes.js';
+import { errorHandler } from './shared/middlewares/error-handler.js';
+import { config } from './shared/config/config.js';
 
 const app = express();
 

@@ -32,12 +32,6 @@ export class PdfController {
                     size: htmlFile.size
                 });
 
-                // Save uploaded HTML file (optional - for audit trail)
-                await storageService.saveUploadedFile(htmlFile, {
-                    category: 'html-upload',
-                    prefix: 'html'
-                });
-
                 const htmlContent = htmlFile.buffer.toString('utf-8');
                 await pdfService.generateFromHtml(htmlContent, pdfFilePath);
             } else if (html) {

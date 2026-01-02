@@ -2,6 +2,7 @@ import app from './app.js';
 import { config } from './shared/config/config.js';
 import { Logger } from './shared/utils/logger.js';
 import { BrowserService } from './modules/browser/browser-service.js';
+import { StorageService } from './modules/storage/storage-service.js';
 import fs from 'fs/promises';
 
 const startServer = async () => {
@@ -10,6 +11,7 @@ const startServer = async () => {
         await fs.mkdir(config.tempDir, { recursive: true });
 
         await BrowserService.getInstance().init();
+        await StorageService.getInstance().init();
 
         const server = app.listen(config.port, () => {
             Logger.info(`Server running on port ${config.port} in ${config.env} mode`);

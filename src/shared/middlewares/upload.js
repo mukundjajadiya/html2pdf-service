@@ -24,3 +24,25 @@ export const upload = multer({
         fileSize: 10 * 1024 * 1024 // 10MB limit
     }
 });
+
+import { StorageService } from '../../modules/storage/storage-service.js';
+
+export const saveToStorage = (options = {}) => {
+    return async (req, res, next) => {
+        if (!req.file) return next();
+
+        try {
+            const storageService = StorageService.getInstance();
+            const result = await storageService.saveUploadedFile(req.file, {
+                category: options.category || 'upload',
+                prefix: options.prefix || 'file'
+            });
+
+            // Attach the storage result to the request for the controller to use
+            req.storedFile = result;
+            next();
+        } catch (error) {
+            next(error);
+        }
+    };
+};

@@ -13,7 +13,8 @@ export class PdfController {
         const startCpu = process.cpuUsage();
 
         try {
-            const { url, html } = req.body;
+            const url = req.body?.url;
+            const html = req.body?.html;
             const htmlFile = req.file; // Multer file upload
 
             // Generate unique filename for the PDF

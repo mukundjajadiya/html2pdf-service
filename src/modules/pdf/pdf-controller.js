@@ -15,34 +15,40 @@ export class PdfController {
         const startCpu = process.cpuUsage();
 
         try {
-            const { url } = req.body;
+            const { url, html } = req.body;
+            const htmlFile = req.file; // Multer file upload
+
             const filename = `${crypto.randomUUID()}.pdf`;
             const filePath = path.join(config.tempDir, filename);
 
-            // Ensure temp dir exists (move to startup ideally, but safe here)
+            // Ensure temp dir exists
             await fs.mkdir(config.tempDir, { recursive: true });
 
+            // Determine the source and generate PDF accordingly
             if (url) {
+                // Method 1: Generate from URL
+                Logger.debug('Generating PDF from URL', { url });
                 await pdfService.generateFromUrl(url, filePath);
-            } else {
-                // Fallback to invoice.html logic if no URL provided (from original code)
-                // ideally request should contain HTML. 
-                // For backwards compatibility/demo, I'll assume req.body.html or read the file.
-                // The original code read 'invoice.html'.
-
-                let htmlContent = req.body.html;
-                if (!htmlContent) {
-                    // Logic from original MVP: read local invoice.html
-                    // In a real API, html should be passed in body.
-                    // I will support both: body.html or fallback to template
-                    const templatePath = path.join(path.dirname(config.tempDir), 'invoice.html');
-                    try {
-                        htmlContent = await fs.readFile(templatePath, 'utf-8');
-                    } catch (err) {
-                        throw new AppError('HTML content is required and default template was not found.', 400);
-                    }
-                }
+            } else if (htmlFile) {
+                // Method 2: Generate from uploaded HTML file
+                Logger.debug('Generating PDF from uploaded HTML file', {
+                    filename: htmlFile.originalname,
+                    size: htmlFile.size
+                });
+                const htmlContent = htmlFile.buffer.toString('utf-8');
                 await pdfService.generateFromHtml(htmlContent, filePath);
+            } else if (html) {
+                // Method 3: Generate from raw HTML string
+                Logger.debug('Generating PDF from raw HTML content', {
+                    contentLength: html.length
+                });
+                await pdfService.generateFromHtml(html, filePath);
+            } else {
+                // No valid input provided
+                throw new AppError(
+                    'Please provide one of the following: url, html (raw content), or upload an HTML file',
+                    400
+                );
             }
 
             const downloadUrl = `${req.protocol}://${req.get('host')}/api/v1/pdf/download/${filename}`;
@@ -54,7 +60,8 @@ export class PdfController {
             Logger.info('PDF Request processed', {
                 executionTimeMs: (t1 - t0).toFixed(2),
                 cpuUser: (cpuUsage.user / 1000).toFixed(2),
-                filename
+                filename,
+                source: url ? 'url' : htmlFile ? 'file' : 'html'
             });
 
             res.status(201).json({

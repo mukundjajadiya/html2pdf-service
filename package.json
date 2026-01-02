@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "express": "^5.2.1",
+    "multer": "^2.0.2",
     "puppeteer": "^24.34.0",
     "winston": "^3.19.0"
   }

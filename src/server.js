@@ -1,4 +1,6 @@
+import './shared/utils/check-engine.js';
 import app from './app.js';
+
 import { config } from './shared/config/config.js';
 import { Logger } from './shared/utils/logger.js';
 import { BrowserService } from './modules/browser/browser-service.js';
